@@ -6,9 +6,10 @@ var Hello = {
     // getName() {
     //     return 'World';
     // }
-    getName() {
+    getName(cb) {
         const req = new XMLHttpRequest();
         req.open('GET', 'http://name', true);
+        req.onreadystatechange = cb;
         req.send(null);
         return 'World';
     }
