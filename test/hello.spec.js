@@ -11,6 +11,7 @@
 describe('Hello', () => {
     describe('getName함수는', () => {
         let request,
+            response,
             callbackSpy;
 
         beforeEach(()=>{
@@ -18,7 +19,11 @@ describe('Hello', () => {
             callbackSpy = jasmine.createSpy('callback');
             Hello.getName(callbackSpy);
             request = jasmine.Ajax.requests.mostRecent();
-            request.respondWith({});
+            response = {
+                status: 200,
+                responseText: 'Chris'
+            };
+            request.respondWith(response);
         });
         afterEach(()=> jasmine.Ajax.uninstall());
 
@@ -28,6 +33,9 @@ describe('Hello', () => {
         });
         it('http 응답이 오면 콜백함수를 실행한다.', ()=>{
             expect(callbackSpy).toHaveBeenCalled();
+        });
+        it('콜백함수 파라매터로 이름을 반환한다', () => {
+            expect(callbackSpy).toHaveBeenCalledWith(response.responseText);
         });
     });
 });
